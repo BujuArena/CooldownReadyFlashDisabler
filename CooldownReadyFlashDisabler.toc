@@ -1,7 +1,4 @@
-## Interface: 90100
-## Interface-Retail: 90100
-## Interface-Classic: 11307
-## Interface-BCC: 20501
+## Interface: 11507, 11508, 20505, 30404, 30405, 40402, 50500, 50501, 50502, 50503, 110107, 110200, 110205, 110207, 120000, 120001
 ## Title: CooldownReadyFlashDisabler
 ## Notes: Universally disables the "bling" flash animations on action buttons whenever cooldowns become ready
 
