@@ -8,7 +8,7 @@ name: Package and Release
 on:
   push:
     tags:
-      - '[0-9]+-[0-9]+-[0-9]+-release*'
+      - '[0-9]+-[0-9]+-[0-9]+-*'
 
 # a workflow is built up as jobs, and within these jobs are steps
 jobs:
@@ -18,6 +18,10 @@ jobs:
 
     # we can run our steps on pretty much anything, but the "ubuntu-latest" image is a safe bet
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
 
     # specify the environment variables used by the packager, matching the secrets from the project on GitHub
     env:
@@ -36,37 +40,10 @@ jobs:
         with:
           # you can specify how much of the commit history you want to fetch,
           # which is useful for controlling the length of the automated changelog
-          fetch-depth: 50
+          # fetch-depth of 0 gets only the commit history since the last release
+          fetch-depth: 0
 
       # once cloned, we just run the GitHub Action for the packager project
+      # uploading to CurseForge requires the X-Curse-Project-ID field in the toc file, or else no upload
       - name: Package and Release
         uses: BigWigsMods/packager@master
-
-      # another example where we supply additional arguments, this example is specifically to release
-      # for the Classic version of the game
-      # the -g arg releases with all classic tags
-      # uploading to CurseForge requires the X-Curse-Project-ID field in the toc file, or else no upload
-      - name: Package and Release for Classic
-        uses: BigWigsMods/packager@master
-        with:
-          args: -g classic
-
-      - name: Package and Release for Burning Crusade Classic
-        uses: BigWigsMods/packager@master
-        with:
-          args: -g bcc
-
-      - name: Package and Release for Wrath of the Lich King Classic
-        uses: BigWigsMods/packager@master
-        with:
-          args: -g wrath
-
-      - name: Package and Release for Cataclysm Classic
-        uses: BigWigsMods/packager@master
-        with:
-          args: -g cata
-
-      - name: Package and Release for Mists of Pandaria Classic
-        uses: BigWigsMods/packager@master
-        with:
-          args: -g mists
